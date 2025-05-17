@@ -8,7 +8,7 @@ import {
 import { ArrowCircleDown, ArrowCircleUp } from "phosphor-react";
 
 export default function ModalNewTransaction() {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">

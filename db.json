@@ -1,0 +1,8 @@
+{
+  "transactions": [
+    { "id": "1", "title": "Netflix", "price": 55.9, "type": "withdraw", "category": "Entretenimento"  },
+    { "id": "2", "title": "Aluguel", "price": 1200, "type": "withdraw", "category": "Moradia" },
+    { "id": "3", "title": "Salário", "price": 5000, "type": "deposit", "category": "Salário" },
+    { "id": "4", "title": "Compras", "price": 200, "type": "withdraw", "category": "Alimentação" }
+  ]
+}

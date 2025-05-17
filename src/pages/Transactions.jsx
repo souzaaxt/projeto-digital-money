@@ -1,8 +1,24 @@
 import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from "phosphor-react";
 import CardTransaction from "../components/CardTransaction/CardTransaction";
 import ModalNewTransaction from "../components/ModalNewTransaction/ModalNewTransaction";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 function TransactionsPage() {
+  const [allTransactions, setAllTransactions] = useState([]);
+
+  async function fetchTransactions() {
+    const transactions = await axios.get("http://localhost:3000/transactions");
+
+    setAllTransactions(transactions.data);
+  }
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  console.log(allTransactions);
+
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <header className="w-full bg-pink-700 py-6 pb-32 px-4 md:px-10">
@@ -48,22 +64,18 @@ function TransactionsPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
-              <tr className="hover:bg-gray-50 bg-white">
-                <td className="px-6 py-4">Desenvolvimento de website</td>
-                <td className="px-6 py-4 text-green-500 font-medium">
-                  R$ 12.000,00
-                </td>
-                <td className="px-6 py-4">Desenvolvimento</td>
-                <td className="px-6 py-4">12/10/2021</td>
-              </tr>
-              <tr className="hover:bg-gray-50 bg-white">
-                <td className="px-6 py-4">Desenvolvimento de website</td>
-                <td className="px-6 py-4 text-green-500 font-medium">
-                  R$ 12.000,00
-                </td>
-                <td className="px-6 py-4">Desenvolvimento</td>
-                <td className="px-6 py-4">12/10/2021</td>
-              </tr>
+              {allTransactions.map((transaction) => {
+                return (
+                  <tr className="hover:bg-gray-50 bg-white">
+                    <td className="px-6 py-4">{transaction.title}</td>
+                    <td className="px-6 py-4 text-green-500 font-medium">
+                      {transaction.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                    </td>
+                    <td className="px-6 py-4">{transaction.category}</td>
+                    <td className="px-6 py-4">12/10/2021</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>
