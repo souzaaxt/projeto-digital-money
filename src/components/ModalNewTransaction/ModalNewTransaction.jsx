@@ -7,6 +7,7 @@ import {
 import axios from "axios";
 import { ArrowCircleDown, ArrowCircleUp } from "phosphor-react";
 import { useState } from "react";
+import ButtonTypeTransaction from "../ButtonTypeTransaction/ButtonTypeTransaction";
 
 export default function ModalNewTransaction({ open, setOpen }) {
   const [title, setTitle] = useState("");
@@ -38,7 +39,7 @@ export default function ModalNewTransaction({ open, setOpen }) {
       price: Number(price),
       category,
       transactionType,
-      date: "17/05/2025"
+      date: "17/05/2025",
     });
 
     setOpen(false);
@@ -78,24 +79,30 @@ export default function ModalNewTransaction({ open, setOpen }) {
                       onChange={(ev) => handleChangePrice(ev.target.value)}
                     />
                     <div className="flex justify-between">
-                      <button className="px-4 py-2 cursor-pointer bg-gray-200 w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 hover:bg-gray-300"
-                      onClick={() => handleClickTransactionType("deposit")}
+                      <ButtonTypeTransaction
+                        type="deposit"
+                        isActive={transactionType === "deposit"}
+                        onClick={() => handleClickTransactionType("deposit")}
                       >
                         <ArrowCircleUp
                           size={20}
                           className="text-emerald-500 font-bold"
-                        />{" "}
+                        />
                         Entrada
-                      </button>
-                      <button className="px-4 py-2 cursor-pointer bg-gray-200 w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 hover:bg-gray-300"
-                      onClick={() => handleClickTransactionType("withdraw")}
+                      </ButtonTypeTransaction>
+
+                      <ButtonTypeTransaction
+                        isActive={transactionType === "withdraw"}
+                        type="withdraw"
+                        onClick={() => handleClickTransactionType("withdraw")}
                       >
                         <ArrowCircleDown
                           size={20}
                           className="text-red-500 font-bold"
                         />{" "}
                         Saida
-                      </button>
+                      </ButtonTypeTransaction>
+                      
                     </div>
                     <div className="w-full">
                       <input
