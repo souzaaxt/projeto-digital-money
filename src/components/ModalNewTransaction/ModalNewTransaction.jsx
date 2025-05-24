@@ -1,14 +1,48 @@
-import { useState } from "react";
 import {
   Dialog,
   DialogBackdrop,
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
+import axios from "axios";
 import { ArrowCircleDown, ArrowCircleUp } from "phosphor-react";
+import { useState } from "react";
 
-export default function ModalNewTransaction() {
-  const [open, setOpen] = useState(false);
+export default function ModalNewTransaction({ open, setOpen }) {
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState(0);
+  const [category, setCategory] = useState("");
+
+  const [transactionType, setTransactionType] = useState("deposit");
+
+  console.log(transactionType);
+  function handleChangeTitle(ev) {
+    setTitle(ev);
+  }
+
+  function handleClickTransactionType(type) {
+    setTransactionType(type);
+  }
+
+  function handleChangeCategory(ev) {
+    setCategory(ev);
+  }
+
+  function handleChangePrice(ev) {
+    setPrice(ev);
+  }
+
+  async function handleNewTransaction() {
+    await axios.post("http://localhost:3000/transactions", {
+      title,
+      price: Number(price),
+      category,
+      transactionType,
+      date: "17/05/2025"
+    });
+
+    setOpen(false);
+  }
 
   return (
     <Dialog open={open} onClose={setOpen} className="relative z-10">
@@ -33,41 +67,48 @@ export default function ModalNewTransaction() {
                     Cadastrar transação
                   </DialogTitle>
                   <div className="mt-2 w-full space-y-5">
-                     <input
-                        className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                        placeholder="Titulo"
-                      />
-                       <input
-                        className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
-                        placeholder="Preço"
-                      />
+                    <input
+                      className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                      placeholder="Titulo"
+                      onChange={(ev) => handleChangeTitle(ev.target.value)}
+                    />
+                    <input
+                      className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
+                      placeholder="Preço"
+                      onChange={(ev) => handleChangePrice(ev.target.value)}
+                    />
                     <div className="flex justify-between">
-                      <div className="px-4 py-2 cursor-pointer bg-gray-200 w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 hover:bg-gray-300">
+                      <button className="px-4 py-2 cursor-pointer bg-gray-200 w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 hover:bg-gray-300"
+                      onClick={() => handleClickTransactionType("deposit")}
+                      >
                         <ArrowCircleUp
                           size={20}
                           className="text-emerald-500 font-bold"
                         />{" "}
                         Entrada
-                      </div>
-                      <div className="px-4 py-2 cursor-pointer bg-gray-200 w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 hover:bg-gray-300">
+                      </button>
+                      <button className="px-4 py-2 cursor-pointer bg-gray-200 w-[49%] h-[50px] flex gap-4 items-center justify-center transition ease-in-out duration-150 hover:bg-gray-300"
+                      onClick={() => handleClickTransactionType("withdraw")}
+                      >
                         <ArrowCircleDown
                           size={20}
                           className="text-red-500 font-bold"
                         />{" "}
                         Saida
-                      </div>
+                      </button>
                     </div>
                     <div className="w-full">
                       <input
                         className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                         placeholder="Categoria"
+                        onChange={(ev) => handleChangeCategory(ev.target.value)}
                       />
                     </div>
                   </div>
                   <div className="bg-white w-full flex items-center justify-center sm:flex sm:flex-row-reverse mt-5">
                     <button
                       type="button"
-                      onClick={() => setOpen(false)}
+                      onClick={handleNewTransaction}
                       className="w-full h-[50px] items-center justify-center rounded-md bg-emerald-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-emerald-500 cursor-pointer"
                     >
                       Cadastrar
