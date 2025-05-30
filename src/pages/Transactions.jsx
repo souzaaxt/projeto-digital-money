@@ -3,11 +3,19 @@ import CardTransaction from "../components/CardTransaction/CardTransaction";
 import ModalNewTransaction from "../components/ModalNewTransaction/ModalNewTransaction";
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function TransactionsPage() {
   const [allTransactions, setAllTransactions] = useState([]);
   const [open, setOpen] = useState(false);
 
+  const navigate = useNavigate();
+
+  function handleEditTransaction(id) {
+    navigate("/transactions/" + id);
+  }
+
+  console.log(allTransactions);
   async function fetchTransactions() {
     const transactions = await axios.get("http://localhost:3000/transactions");
 
@@ -22,8 +30,25 @@ function TransactionsPage() {
     fetchTransactions();
   }, []);
 
-  console.log(allTransactions);
+  const depositsResult = allTransactions.reduce((prev, current) => {
+    if (current.transactionType === "deposit") {
+      return prev + current.price;
+    }
 
+    return prev;
+  }, 0);
+
+  const withdrawsResult = allTransactions.reduce((prev, current) => {
+    if (current.transactionType === "withdraw") {
+      return prev + current.price;
+    }
+
+    return prev;
+  }, 0);
+
+  const total = depositsResult - withdrawsResult;
+
+  console.log(withdrawsResult);
   return (
     <div className="min-h-screen flex flex-col bg-gray-100">
       <header className="w-full bg-pink-700 py-6 pb-32 px-4 md:px-10">
@@ -31,7 +56,10 @@ function TransactionsPage() {
           <h1 className="text-white text-xl md:text-2xl font-bold">
             digital money
           </h1>
-          <button className="bg-white/20 px-12 rounded py-2 hover:bg-white/30 text-white border-0 cursor-pointer" onClick={handleOpenModal}>
+          <button
+            className="bg-white/20 px-12 rounded py-2 hover:bg-white/30 text-white border-0 cursor-pointer"
+            onClick={handleOpenModal}
+          >
             Nova transação
           </button>
         </div>
@@ -41,11 +69,13 @@ function TransactionsPage() {
           <CardTransaction
             title="Entradas"
             background="bg-white"
+            amount={depositsResult}
             icon={<ArrowCircleUp className="text-green-500" size={32} />}
           />
 
           <CardTransaction
             title="Saídas"
+            amount={withdrawsResult}
             background="bg-white"
             icon={<ArrowCircleDown className="text-red-500" size={32} />}
           />
@@ -53,6 +83,7 @@ function TransactionsPage() {
           <CardTransaction
             title="Total"
             background="bg-emerald-500"
+            amount={total}
             icon={<CurrencyDollar size={32} />}
             textColor="text-white"
           />
@@ -71,10 +102,19 @@ function TransactionsPage() {
             <tbody className="divide-y divide-gray-100">
               {allTransactions.map((transaction, index) => {
                 return (
-                  <tr className="hover:bg-gray-50 bg-white" key={index}>
+                  <tr
+                    className="hover:bg-gray-50 bg-white"
+                    key={index}
+                    onClick={() => {
+                      handleEditTransaction(transaction.id);
+                    }}
+                  >
                     <td className="px-6 py-4">{transaction.title}</td>
                     <td className="px-6 py-4 text-green-500 font-medium">
-                      {transaction.price.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })}
+                      {transaction.price.toLocaleString("pt-BR", {
+                        style: "currency",
+                        currency: "BRL",
+                      })}
                     </td>
                     <td className="px-6 py-4">{transaction.category}</td>
                     <td className="px-6 py-4">{transaction.date}</td>

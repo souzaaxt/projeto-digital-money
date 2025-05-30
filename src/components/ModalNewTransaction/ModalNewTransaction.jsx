@@ -8,15 +8,15 @@ import axios from "axios";
 import { ArrowCircleDown, ArrowCircleUp } from "phosphor-react";
 import { useState } from "react";
 import ButtonTypeTransaction from "../ButtonTypeTransaction/ButtonTypeTransaction";
+import { format } from "date-fns";
 
 export default function ModalNewTransaction({ open, setOpen }) {
   const [title, setTitle] = useState("");
   const [price, setPrice] = useState(0);
   const [category, setCategory] = useState("");
 
-  const [transactionType, setTransactionType] = useState("deposit");
+  const [transactionType, setTransactionType] = useState("");
 
-  console.log(transactionType);
   function handleChangeTitle(ev) {
     setTitle(ev);
   }
@@ -39,7 +39,7 @@ export default function ModalNewTransaction({ open, setOpen }) {
       price: Number(price),
       category,
       transactionType,
-      date: "17/05/2025",
+      date: format(new Date(), "dd/MM/yyyy"),
     });
 
     setOpen(false);

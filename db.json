@@ -4,7 +4,7 @@
       "id": "1",
       "title": "Netflix",
       "price": 55.9,
-      "type": "withdraw",
+      "transactionType": "withdraw",
       "category": "Entretenimento",
       "date": "17/05/2025"
     },
@@ -21,6 +21,14 @@
       "title": "Prime Video",
       "price": 20,
       "category": "Entretenimento",
+      "transactionType": "withdraw",
+      "date": "17/05/2025"
+    },
+    {
+      "id": "950a",
+      "title": "Curso",
+      "price": 2500,
+      "category": "Educação",
       "transactionType": "withdraw",
       "date": "17/05/2025"
     }
