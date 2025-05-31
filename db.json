@@ -31,6 +31,22 @@
       "category": "Educação",
       "transactionType": "withdraw",
       "date": "17/05/2025"
+    },
+    {
+      "id": "8bca",
+      "title": "Café",
+      "price": 90,
+      "category": "Alimentacao",
+      "transactionType": "withdraw",
+      "date": "31/05/2025"
+    },
+    {
+      "id": "5b39",
+      "title": "Aumento de salario",
+      "price": 1200,
+      "category": "Salario",
+      "transactionType": "deposit",
+      "date": "31/05/2025"
     }
   ]
 }

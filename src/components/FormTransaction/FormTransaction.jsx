@@ -9,6 +9,10 @@ export default function FormTransaction({
   handleClickTransactionType,
   transactionType,
   handleNewTransaction,
+
+  titleValue = "",
+  priceValue = "",
+  categoryValue = "",
 }) {
   return (
     <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
@@ -21,11 +25,13 @@ export default function FormTransaction({
             <input
               className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
               placeholder="Titulo"
+              value={titleValue}
               onChange={(ev) => handleChangeTitle(ev.target.value)}
             />
             <input
               className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
               placeholder="Preço"
+              value={priceValue}
               onChange={(ev) => handleChangePrice(ev.target.value)}
             />
             <div className="flex justify-between">
@@ -54,6 +60,7 @@ export default function FormTransaction({
               <input
                 className="w-full h-[50px] bg-gray-200 placeholder:text-slate-400 text-slate-700 text-sm border border-slate-200 rounded-md px-4 py-2 transition duration-300 ease focus:outline-none focus:border-slate-400 hover:border-slate-300 shadow-sm focus:shadow"
                 placeholder="Categoria"
+                value={categoryValue}
                 onChange={(ev) => handleChangeCategory(ev.target.value)}
               />
             </div>
